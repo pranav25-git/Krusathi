@@ -1,12 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from '../components/Card'
 import { useNavigate } from 'react-router-dom'
+import { clearToken, getDashboardData, logout, validateToken } from '../services/auth'
 
 export default function Dashboard(){
   const navigate = useNavigate()
+  const [status, setStatus] = useState('')
+
+  useEffect(() => {
+    validateToken()
+      .then(res => {
+        if (!res.ok) {
+          clearToken()
+          navigate('/login', { replace: true })
+          return
+        }
+        return getDashboardData()
+      })
+      .then(async res => {
+        if (!res) return
+        if (!res.ok) {
+          clearToken()
+          navigate('/login', { replace: true })
+          return
+        }
+        const data = await res.json()
+        setStatus(data.message || '')
+      })
+      .catch(() => {
+        clearToken()
+        navigate('/login', { replace: true })
+      })
+  }, [navigate])
 
   function handleLogout(){
-    navigate('/')
+    logout()
+      .finally(() => {
+        clearToken()
+        navigate('/login', { replace: true })
+      })
   }
 
   return (
@@ -22,6 +54,7 @@ export default function Dashboard(){
           <Card title="Weather Risk" subtitle="Coming Soon" />
           <Card title="Crop Advisory" subtitle="Coming Soon" />
         </main>
+        {status && <p className="mt-6 text-sm text-gray-600">{status}</p>}
       </div>
     </div>
   )

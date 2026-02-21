@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { login as apiLogin } from '../services/auth'
+import { login as apiLogin, setToken } from '../services/auth'
 
 export default function Login(){
   const [email, setEmail] = useState('')
@@ -11,16 +11,28 @@ export default function Login(){
   function handleSubmit(e){
     e.preventDefault()
     setError('')
-    if(!email || !password){
+    const normalizedEmail = email.trim()
+    if(!normalizedEmail || !password){
       setError('Please enter email and password')
       return
     }
 
-    apiLogin({ email, password }).then(res => {
+    apiLogin({ email: normalizedEmail, password }).then(async res => {
       if (res.ok) {
+        const data = await res.json()
+        if (!data.token) {
+          setError('Login failed: token not received')
+          return
+        }
+        setToken(data.token)
         navigate('/dashboard')
       } else {
-        res.json().then(j => setError(j.detail || 'Invalid credentials'))
+        try {
+          const j = await res.json()
+          setError(j.detail || 'Invalid credentials')
+        } catch {
+          setError('Invalid credentials')
+        }
       }
     }).catch(err => setError('Network error'))
   }

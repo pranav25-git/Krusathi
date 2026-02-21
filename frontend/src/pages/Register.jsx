@@ -13,12 +13,13 @@ export default function Register(){
     e.preventDefault()
     setError('')
     setSuccess('')
-    if(!email || !password){
+    const normalizedEmail = email.trim()
+    if(!normalizedEmail || !password){
       setError('Please enter email and password')
       return
     }
 
-    apiRegister({ email, password }).then(res => {
+    apiRegister({ email: normalizedEmail, password }).then(res => {
       if (res.ok) {
         setSuccess('Registration successful — please login')
         setTimeout(() => navigate('/login'), 1000)
