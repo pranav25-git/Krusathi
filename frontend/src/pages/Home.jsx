@@ -8,8 +8,9 @@ export default function Home(){
         <section className="p-8">
           <h1 className="text-4xl md:text-5xl font-extrabold text-agri-green">AI-Based Pest Outbreak Prediction System</h1>
           <p className="mt-4 text-gray-700 text-lg">A frontend prototype for forecasting and advisory tools for modern agriculture. UI-only phase.</p>
-          <div className="mt-6">
-            <Link to="/login" className="inline-block px-6 py-3 rounded-md bg-agri-green text-white font-medium">Login</Link>
+          <div className="mt-6 flex gap-4">
+            <Link to="/register" className="inline-block px-6 py-3 rounded-md bg-agri-green text-white font-medium">Register</Link>
+            <Link to="/login" className="inline-block px-6 py-3 rounded-md border-2 border-agri-green text-agri-green font-medium hover:bg-agri-green hover:text-white transition">Login</Link>
           </div>
         </section>
 

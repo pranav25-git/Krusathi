@@ -1,35 +1,38 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { login as apiLogin } from '../services/auth'
+import { register as apiRegister } from '../services/auth'
 
-export default function Login(){
+export default function Register(){
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const navigate = useNavigate()
 
   function handleSubmit(e){
     e.preventDefault()
     setError('')
+    setSuccess('')
     if(!email || !password){
       setError('Please enter email and password')
       return
     }
 
-    apiLogin({ email, password }).then(res => {
+    apiRegister({ email, password }).then(res => {
       if (res.ok) {
-        navigate('/dashboard')
+        setSuccess('Registration successful — please login')
+        setTimeout(() => navigate('/login'), 1000)
       } else {
-        res.json().then(j => setError(j.detail || 'Invalid credentials'))
+        res.json().then(j => setError(j.detail || 'Registration failed'))
       }
-    }).catch(err => setError('Network error'))
+    }).catch(() => setError('Network error'))
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md card-shadow">
-        <h2 className="text-2xl font-bold text-agri-green">Login</h2>
-        <p className="text-sm text-gray-600 mt-1">Sign in to access dashboard</p>
+        <h2 className="text-2xl font-bold text-agri-green">Register</h2>
+        <p className="text-sm text-gray-600 mt-1">Create an account</p>
         <form className="mt-6 space-y-4" onSubmit={handleSubmit} noValidate>
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
@@ -42,12 +45,13 @@ export default function Login(){
           </div>
 
           {error && <div className="text-sm text-red-600">{error}</div>}
+          {success && <div className="text-sm text-green-600">{success}</div>}
 
           <div>
-            <button type="submit" className="w-full px-4 py-2 bg-agri-green text-white rounded-md">Login</button>
+            <button type="submit" className="w-full px-4 py-2 bg-agri-green text-white rounded-md">Register</button>
           </div>
 
-          <p className="text-sm text-center text-gray-600">Don't have an account? <Link to="/register" className="text-agri-green font-medium hover:underline">Register here</Link></p>
+          <p className="text-sm text-center text-gray-600">Already have an account? <Link to="/login" className="text-agri-green font-medium hover:underline">Login here</Link></p>
         </form>
       </div>
     </div>
