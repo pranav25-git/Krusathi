@@ -1,0 +1,21 @@
+{
+  "Maharashtra": {
+    "Jalgaon": {
+      "Bodwad": ["Salshingi", "Jamthi", "Kolwad"],
+      "Bhusawal": ["Varangaon", "Kandari"],
+      "Jalgaon City": ["Asoda", "Nashirabad"]
+    },
+    "Buldhana": {
+      "Malkapur": ["Wakodi", "Pimpalgaon"],
+      "Khamgaon": ["Nandura", "Shegaon"]
+    },
+    "Dhule": {
+      "Dhule City": ["Songir", "Fagne"],
+      "Shirpur": ["Arthe", "Thalner"]
+    },
+    "Pune": {
+      "Pimpri-Chinchwad": ["Akurdi", "Nigdi", "Chinchwad"],
+      "Pune City": ["Hadapsar", "Wakad", "Kothrud"]
+    }
+  }
+}

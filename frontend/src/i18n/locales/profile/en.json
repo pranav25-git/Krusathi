@@ -1,0 +1,18 @@
+{
+  "profile": {
+    "title": "Profile",
+    "accountInfo": "Account Info",
+    "preferences": "Preferences",
+    "security": "Security",
+    "userEmail": "User Email",
+    "accountCreated": "Account Created Date",
+    "userId": "User ID",
+    "selectedLanguage": "Selected Language",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "logout": "Logout",
+    "newPrediction": "New Prediction",
+    "close": "Close",
+    "notAvailable": "Not available"
+  }
+}

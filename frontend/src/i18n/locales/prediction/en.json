@@ -1,0 +1,90 @@
+{
+  "prediction": {
+    "sectionCrop": "Section A - Crop Information",
+    "sectionClimate": "Section B - Climate Parameters",
+    "sectionLocation": "Section C - Location Intelligence",
+    "cropType": "Crop Type",
+    "cropStage": "Crop Stage",
+    "temperature": "Temperature (?C)",
+    "humidity": "Humidity (%)",
+    "rainfall": "Rainfall (mm)",
+    "windSpeed": "Wind Speed (km/h)",
+    "soilMoisture": "Soil Moisture (%)",
+    "useCurrentLocation": "Use My Current Location",
+    "fetchingLocation": "Detecting your location...",
+    "currentLocationLabel": "Current location",
+    "approximateLocation": "Approximate location",
+    "locationNotSupported": "Geolocation is not supported in this browser.",
+    "locationFetchFailed": "Unable to detect your location. Default location has been used.",
+    "state": "State",
+    "district": "District",
+    "date": "Date",
+    "predict": "Run AI Prediction",
+    "predicting": "Analyzing...",
+    "resultTitle": "Prediction Result",
+    "resultPredictedPest": "Predicted Pest",
+    "resultRiskLevel": "Risk Level",
+    "resultConfidence": "Confidence",
+    "resultAction": "Recommended Action",
+    "required": "This field is required.",
+    "errors": {
+      "temperatureRange": "Temperature must be between 0 and 60?C.",
+      "humidityRange": "Humidity must be between 0 and 100%.",
+      "rainfallRange": "Rainfall must be between 0 and 500 mm.",
+      "windSpeedRange": "Wind speed must be between 0 and 150 km/h.",
+      "soilMoistureRange": "Soil moisture must be between 0 and 100%."
+    },
+    "crops": {
+      "wheat": "Wheat",
+      "rice": "Rice",
+      "cotton": "Cotton",
+      "maize": "Maize",
+      "soybean": "Soybean"
+    },
+    "stages": {
+      "seedling": "Seedling",
+      "vegetative": "Vegetative",
+      "flowering": "Flowering",
+      "fruiting": "Fruiting",
+      "harvesting": "Harvesting"
+    },
+    "states": {
+      "telangana": "Telangana",
+      "maharashtra": "Maharashtra",
+      "karnataka": "Karnataka"
+    },
+    "districts": {
+      "hyderabad": "Hyderabad",
+      "warangal": "Warangal",
+      "nizamabad": "Nizamabad",
+      "pune": "Pune",
+      "nashik": "Nashik",
+      "nagpur": "Nagpur",
+      "bengaluru": "Bengaluru",
+      "mysuru": "Mysuru",
+      "belagavi": "Belagavi"
+    },
+    "mockPests": {
+      "low": "Leaf Miner",
+      "medium": "Brown Planthopper",
+      "high": "Fall Armyworm"
+    },
+    "recommendedActions": {
+      "low": "Continue weekly field scouting and trap monitoring.",
+      "medium": "Start targeted preventive spray in vulnerable plots.",
+      "high": "Immediate intervention advised with expert-guided treatment."
+    },
+    "sectionDate": "Section D - Date",
+    "locationPermissionDenied": "Location permission denied. Default location has been applied.",
+    "weatherAutofilled": "Weather auto-filled from live data",
+    "weatherFetchFailed": "Weather fetch failed. Please enter values manually.",
+    "unknownDistrict": "Unknown district",
+    "unknownState": "Unknown state",
+    "city": "City",
+    "village": "Village",
+    "locationSynced": "Location auto-detected and synced with form",
+    "selectDistrict": "Select district",
+    "selectCity": "Select city",
+    "selectVillage": "Select village"
+  }
+}

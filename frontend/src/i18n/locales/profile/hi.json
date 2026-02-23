@@ -1,0 +1,18 @@
+{
+  "profile": {
+    "title": "प्रोफाइल",
+    "accountInfo": "खाता जानकारी",
+    "preferences": "प्राथमिकताएँ",
+    "security": "सुरक्षा",
+    "userEmail": "उपयोगकर्ता ईमेल",
+    "accountCreated": "खाता निर्माण तिथि",
+    "userId": "यूज़र आईडी",
+    "selectedLanguage": "चयनित भाषा",
+    "darkMode": "डार्क मोड",
+    "lightMode": "लाइट मोड",
+    "logout": "लॉगआउट",
+    "newPrediction": "नया पूर्वानुमान",
+    "close": "बंद करें",
+    "notAvailable": "उपलब्ध नहीं"
+  }
+}
