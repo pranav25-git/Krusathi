@@ -47,3 +47,27 @@ export function logout(){
 export function getDashboardData(){
   return authFetch('/api/dashboard', { method: 'GET' })
 }
+
+export function createPrediction(payload){
+  return authFetch('/api/predict', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+}
+
+export function getLatestPrediction(){
+  return authFetch('/api/predictions/latest', { method: 'GET' })
+}
+
+export function getAllPredictions(){
+  return authFetch('/api/predictions', { method: 'GET' })
+}
+
+export function getPredictionById(predictionId){
+  return authFetch(`/api/predictions/${predictionId}`, { method: 'GET' })
+}
+
+export function getPredictionAnalytics(){
+  return authFetch('/api/predictions/analytics', { method: 'GET' })
+}

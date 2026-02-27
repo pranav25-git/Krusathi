@@ -131,12 +131,18 @@ export default function SiteHeader() {
                   className="h-10 w-10 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300"
                   aria-label={t('profile.title')}
                 >
-                  <span aria-hidden="true">👤</span>
+                  <span aria-hidden="true">U</span>
                 </button>
                 {userMenuOpen && (
                   <div className="absolute right-0 mt-2 w-48 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-lg p-2 notif-dropdown">
                     <Link to="/dashboard" className="block rounded-lg px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">
                       {t('header.dashboard')}
+                    </Link>
+                    <Link to="/predictions" className="block rounded-lg px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">
+                      All Predictions
+                    </Link>
+                    <Link to="/analytics" className="block rounded-lg px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">
+                      Analytics
                     </Link>
                     <Link to="/profile" className="block rounded-lg px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">
                       {t('profile.title')}
@@ -214,6 +220,12 @@ export default function SiteHeader() {
                 <>
                   <Link to="/dashboard" className="px-4 py-2 rounded-xl text-sm font-semibold text-center border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-green-50 dark:hover:bg-slate-800 transition-all duration-300">
                     {t('header.dashboard')}
+                  </Link>
+                  <Link to="/predictions" className="px-4 py-2 rounded-xl text-sm font-semibold text-center border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-green-50 dark:hover:bg-slate-800 transition-all duration-300">
+                    All Predictions
+                  </Link>
+                  <Link to="/analytics" className="px-4 py-2 rounded-xl text-sm font-semibold text-center border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-green-50 dark:hover:bg-slate-800 transition-all duration-300">
+                    Analytics
                   </Link>
                   <Link to="/profile" className="px-4 py-2 rounded-xl text-sm font-semibold text-center border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-green-50 dark:hover:bg-slate-800 transition-all duration-300">
                     {t('profile.title')}

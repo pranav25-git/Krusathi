@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import locationsData from '../data/locations.json'
+import { createPrediction } from '../services/auth'
 
 const DEFAULT_LOCATION = {
   state: 'Maharashtra',
@@ -66,6 +67,7 @@ export default function PredictionForm({ onPredictionComplete }) {
   const [errors, setErrors] = useState({})
   const [isPredicting, setIsPredicting] = useState(false)
   const [prediction, setPrediction] = useState(null)
+  const [submitError, setSubmitError] = useState('')
   const [isAutoLocationSynced, setIsAutoLocationSynced] = useState(true)
 
   const [location, setLocation] = useState({
@@ -264,6 +266,7 @@ export default function PredictionForm({ onPredictionComplete }) {
   function setField(name, value) {
     setFormData((prev) => ({ ...prev, [name]: value }))
     setErrors((prev) => ({ ...prev, [name]: '' }))
+    setSubmitError('')
   }
 
   function validate() {
@@ -311,51 +314,76 @@ export default function PredictionForm({ onPredictionComplete }) {
     return Object.keys(nextErrors).length === 0
   }
 
-  function buildMockResult() {
-    const humidity = Number(formData.humidity)
-    const rainfall = Number(formData.rainfall)
-    const soil = Number(formData.soilMoisture)
-    const score = humidity * 0.45 + rainfall * 0.25 + soil * 0.3
+  function mapPredictionResultToRisk(predictionResult) {
+    const normalized = String(predictionResult || '').toLowerCase()
+    if (normalized === 'high') return 'high'
+    if (normalized === 'medium') return 'medium'
+    return 'low'
+  }
 
-    let risk = 'low'
-    if (score >= 70) risk = 'high'
-    else if (score >= 45) risk = 'medium'
-
+  function buildUiResultFromApi(apiResult) {
+    const risk = mapPredictionResultToRisk(apiResult.prediction_result)
     const pestMap = {
       low: t('prediction.mockPests.low'),
       medium: t('prediction.mockPests.medium'),
       high: t('prediction.mockPests.high')
     }
-    const confidence = Math.max(65, Math.min(97, Math.round(72 + score / 4)))
 
     return {
       risk,
       pest: pestMap[risk],
-      confidence,
+      confidence: Math.round(Number(apiResult.confidence_score || 0) * 100),
       action: t(`prediction.recommendedActions.${risk}`)
     }
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
     if (!validate()) return
 
     setIsPredicting(true)
     setPrediction(null)
+    setSubmitError('')
 
-    window.setTimeout(() => {
-      const result = buildMockResult()
+    try {
+      const payload = {
+        crop_type: formData.cropType,
+        crop_stage: formData.cropStage,
+        state: formData.state,
+        district: formData.district,
+        city: formData.city,
+        village: formData.village,
+        temperature: Number(formData.temperature),
+        humidity: Number(formData.humidity),
+        rainfall: Number(formData.rainfall),
+        wind_speed: Number(formData.windSpeed),
+        soil_moisture: Number(formData.soilMoisture),
+        prediction_date: formData.date
+      }
+
+      const response = await createPrediction(payload)
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}))
+        throw new Error(err.detail || 'Prediction request failed')
+      }
+
+      const savedPrediction = await response.json()
+      const result = buildUiResultFromApi(savedPrediction)
       const locationLabel = formData.useCurrentLocation
         ? location.label
         : `${formData.village}, ${formData.city}, ${formData.district}, ${formData.state}`
 
       setPrediction(result)
-      setIsPredicting(false)
       onPredictionComplete?.({
         formData: { ...formData, locationLabel },
-        prediction: result
+        prediction: result,
+        savedPrediction
       })
-    }, 950)
+    } catch (error) {
+      setSubmitError(error.message || 'Failed to run prediction')
+    } finally {
+      setIsPredicting(false)
+    }
   }
 
   const inputClass =
@@ -410,7 +438,7 @@ export default function PredictionForm({ onPredictionComplete }) {
             <div className="h-10 rounded-xl bg-slate-200 dark:bg-slate-700 animate-pulse" />
           ) : (
             <span className="inline-flex items-center rounded-full border border-green-200 bg-green-50 px-3 py-1 text-sm font-medium text-green-800 dark:bg-green-950/30 dark:border-green-900 dark:text-green-300">
-              {`📍 ${location.label || `${DEFAULT_LOCATION.area}, ${DEFAULT_LOCATION.district}, ${DEFAULT_LOCATION.state}`}`}
+              {`Location: ${location.label || `${DEFAULT_LOCATION.area}, ${DEFAULT_LOCATION.district}, ${DEFAULT_LOCATION.state}`}`}
             </span>
           )}
           {!location.loading && formData.useCurrentLocation && (
@@ -515,6 +543,8 @@ export default function PredictionForm({ onPredictionComplete }) {
           {isPredicting ? t('prediction.predicting') : t('prediction.predict')}
         </button>
       </div>
+
+      {submitError && <p className={errorClass}>{submitError}</p>}
 
       {prediction && (
         <article className="mt-5 rounded-xl border border-blue-200 bg-blue-50/60 p-4 dark:bg-blue-950/20 dark:border-blue-900/40">
