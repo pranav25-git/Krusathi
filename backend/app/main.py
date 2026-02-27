@@ -1,13 +1,15 @@
 import secrets
 import traceback
 
-from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import inspect, text
 from sqlalchemy.orm import Session
 
 from . import models, schemas
-from .database import Base, SessionLocal, engine
+from .database import Base, engine
+from .deps import get_current_user, get_db
+from .routes.prediction import router as prediction_router
 
 app = FastAPI()
 
@@ -33,36 +35,6 @@ try:
 except Exception as e:
     print(f"Error creating database tables: {e}")
     traceback.print_exc()
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-def extract_token(authorization: str | None) -> str | None:
-    if not authorization:
-        return None
-    prefix = "Bearer "
-    if authorization.startswith(prefix):
-        return authorization[len(prefix):].strip()
-    return None
-
-
-def get_current_user(
-    authorization: str | None = Header(default=None),
-    db: Session = Depends(get_db),
-):
-    token = extract_token(authorization)
-    if not token:
-        raise HTTPException(status_code=401, detail="Missing token")
-    db_user = db.query(models.User).filter(models.User.auth_token == token).first()
-    if not db_user:
-        raise HTTPException(status_code=401, detail="Invalid token")
-    return db_user
 
 
 @app.post("/api/register")
@@ -122,3 +94,6 @@ def validate_token(current_user: models.User = Depends(get_current_user)):
 @app.get("/api/dashboard")
 def dashboard_data(current_user: models.User = Depends(get_current_user)):
     return {"message": "Authorized dashboard data", "email": current_user.email}
+
+
+app.include_router(prediction_router, prefix="/api", tags=["Prediction"])

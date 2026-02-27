@@ -4,6 +4,9 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
+import AllPredictions from './pages/AllPredictions'
+import Analytics from './pages/Analytics'
+import PredictionReport from './pages/PredictionReport'
 import Profile from './pages/Profile'
 import About from './pages/About'
 import TermsAndConditions from './pages/TermsAndConditions'
@@ -37,6 +40,9 @@ export default function App(){
           <Route path="/login" element={<PublicOnlyRoute><Login/></PublicOnlyRoute>} />
           <Route path="/register" element={<PublicOnlyRoute><Register/></PublicOnlyRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
+          <Route path="/predictions" element={<ProtectedRoute><AllPredictions/></ProtectedRoute>} />
+          <Route path="/predictions/:predictionId" element={<ProtectedRoute><PredictionReport/></ProtectedRoute>} />
+          <Route path="/analytics" element={<ProtectedRoute><Analytics/></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
         </Routes>
       </main>
