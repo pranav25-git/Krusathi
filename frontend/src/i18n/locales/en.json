@@ -93,7 +93,7 @@
     "networkError": "Network error"
   },
   "about": {
-    "title": "About AI-Based Pest Outbreak Prediction System",
+    "title": "About AI-Based Pest Outbreak Prediction Systems",
     "intro": "This platform is an AI-powered agricultural advisory system designed to help farmers and agronomy teams detect pest risks early and respond with confidence.",
     "overviewTitle": "Platform Overview",
     "overviewBody1": "The system uses climate and crop context to forecast potential pest outbreaks and provide proactive field guidance. It is built as a modern forecasting platform focused on operational clarity and practical action.",
